@@ -42,14 +42,32 @@ if (loginForm) {
 function init() {
     const outputEl = document.getElementById('output');
     const inputEl = document.getElementById('command-input');
-    // In-memory fake filesystem for `ls`
-    const fakeEntries = [
-        'README.md',
-        'about',
-        'projects',
-        'contact.txt',
-        'resume.pdf'
-    ];
+    // In-memory filesystem
+    // Secret agent briefing
+    const readmeContent = [
+        "\\ Agent Briefing //",
+        "",
+        "Agent, on this server there are files that are encrypted.",
+        "You need to decrypt them and find the truth...",
+        "Begin with: secret.txt",
+        "",
+        "Your first mission: decode the encrypted file. The answers await.",
+        "---"
+    ].join("\n");
+    // Caesar cipher shift 3: "The password is 'trustno1'. Proceed to unravel the mystery."
+    // Encrypted: "Wkh sdvvzrug lv 'wuxvwqr1'. Surghhg wr xqudyho wkh pbvwhub."
+    const secretFileContent = "Wkh sdvvzrug lv 'wuxvwqr1'. Surgghg wr xqudyho wkh pbvwhub.";
+    // In-memory files
+    const files = {
+        "README.md": readmeContent,
+        "about": "This directory is empty.",
+        "projects": "This directory is empty.",
+        "contact.txt": "contact@agency.example",
+        "resume.pdf": "Encrypted PDF. Access denied.",
+        "secret.txt": secretFileContent
+    };
+    // Directory listing
+    const fakeEntries = Object.keys(files);
     function appendLine(text, className) {
         const div = document.createElement('div');
         div.className = `line${className ? ' ' + className : ''}`;
@@ -67,22 +85,24 @@ function init() {
             // nothing
             return;
         }
-        switch (command) {
-            case 'ls': {
-                appendLine(fakeEntries.join('  '));
-                break;
+        // Parse command
+        if (command === 'ls') {
+            appendLine(fakeEntries.join('  '));
+        } else if (command === 'clear') {
+            outputEl.innerHTML = '';
+        } else if (command === 'help') {
+            appendLine('Available commands: ls, clear, help, cat, less');
+        } else if (/^(cat|less)\s+(.+)/.test(command)) {
+            // Extract filename
+            const match = command.match(/^(cat|less)\s+(.+)/);
+            const fname = match[2].trim();
+            if (files[fname]) {
+                appendLine(files[fname]);
+            } else {
+                appendLine(`cat: ${fname}: No such file`, 'error');
             }
-            case 'clear': {
-                outputEl.innerHTML = '';
-                break;
-            }
-            case 'help': {
-                appendLine('Available commands: ls, clear, help');
-                break;
-            }
-            default: {
-                appendLine(`command not found: ${command}`, 'error');
-            }
+        } else {
+            appendLine(`command not found: ${command}`, 'error');
         }
     }
     // Seed with a welcome line
