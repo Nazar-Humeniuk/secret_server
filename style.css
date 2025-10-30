@@ -1,0 +1,81 @@
+/* Base layout */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: #0b0f10; /* deep dark */
+    color: #13ff7c; /* neon green */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+#terminal {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Output area scrolls, prompt stays pinned at bottom */
+#output {
+    flex: 1 1 auto;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* Lines */
+.line {
+    line-height: 1.6;
+}
+
+.cmd {
+    color: #79ffb7;
+}
+
+.error {
+    color: #ff5c5c;
+}
+
+/* Prompt */
+#prompt-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.prompt {
+    color: #00ff95;
+}
+
+#command-input {
+    flex: 1 1 auto;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font: inherit;
+}
+
+/* Subtle caret glow */
+#command-input::selection {
+    background: rgba(0, 255, 128, 0.25);
+}
+
+/* Custom scrollbar for vibes */
+#output::-webkit-scrollbar {
+    width: 10px;
+}
+
+#output::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 149, 0.25);
+    border-radius: 8px;
+}
+
+#output::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 149, 0.4);
+}
+
+
