@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Login overlay -->
+    <div id="login-overlay">
+      <div id="login-box">
+        <div class="login-title">Log in as <span class="agent">secret agent</span>. Access required.</div>
+        <form id="login-form" autocomplete="off">
+          <input type="password" id="login-password" placeholder="Enter password" autocomplete="off" />
+          <button type="submit" id="login-btn">Login</button>
+        </form>
+        <div id="login-message"></div>
+      </div>
+    </div>
     <div id="terminal">
         <div id="output" aria-live="polite" aria-atomic="false"></div>
         <div id="prompt-line">
